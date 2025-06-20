@@ -53,7 +53,7 @@ string getCurrentTimestamp() {
 
 }
 
-void sha256_hash_string(unsigned char *hash, char *outputBuffer) {
+void sha256_hash_string(const unsigned char *hash, char *outputBuffer) {
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         sprintf(outputBuffer + (i * 2), "%02x", hash[i]);
     }

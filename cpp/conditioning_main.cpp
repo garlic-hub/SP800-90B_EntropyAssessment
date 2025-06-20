@@ -353,7 +353,7 @@ static long double computeEntropyWithPrecision(mpfr_prec_t precision, long doubl
 
 //This function performs statistical testing on the bitwise input data.
 //It returns h', which is a value in the range [0,1].
-static long double computeEntropyOfConditionedData(string inputfilename, bool iid, TestRunBase *testRun) {
+static long double computeEntropyOfConditionedData(const string& inputfilename, bool iid, TestRunBase *testRun) {
 
     data_t data;
     double h_bitstring = 1.0;

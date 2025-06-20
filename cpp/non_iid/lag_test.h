@@ -28,7 +28,7 @@ struct lagBuf {
  * For this, one needs only check and update the current symbol's ring buffer, and we only need to spend
  * time looking at values that correspond to counters that must be updated.
  */
-double lag_test(uint8_t *S, long L, int k, const int verbose, const char *label) {
+double lag_test(const uint8_t *S, long L, int k, const int verbose, const char *label) {
 	long scoreboard[D_LAG] = {0};
 	int winner = 0;
 	long curRunOfCorrects = 0;

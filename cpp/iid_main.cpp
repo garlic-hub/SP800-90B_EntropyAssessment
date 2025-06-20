@@ -203,7 +203,7 @@ int main(int argc, char* argv[]) {
         if (subsetSize == 0) {
             printf("Opening file: '%s' (SHA-256 hash %s)\n", file_path, hash);
         } else {
-            printf("Opening file: '%s' (SHA-256 hash %s), reading block %ld of size %ld\n", file_path, hash, subsetIndex, subsetSize);
+            printf("Opening file: '%s' (SHA-256 hash %s), reading block %lu of size %lu\n", file_path, hash, subsetIndex, subsetSize);
         }
     }
     if (!read_file_subset(file_path, &data, subsetIndex, subsetSize, &testRun)) {

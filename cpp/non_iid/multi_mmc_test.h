@@ -144,7 +144,7 @@ static double binaryMultiMMCPredictionEstimate(const uint8_t *S, long L, const i
  *    some long string to the dictionary after no longer looking for a string to the dictionary when
  *    we should have), this can't happen in practice because we add strings from shortest to longest.
  */
-double multi_mmc_test(uint8_t *data, long len, int alph_size, const int verbose, const char *label){
+double multi_mmc_test(const uint8_t *data, long len, int alph_size, const int verbose, const char *label){
 	int winner, cur_winner;
 	int entries[D_MMC];
 	long i, d, N, C, run_len, max_run_len;

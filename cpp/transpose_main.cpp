@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
 
     if (verbose > 1) {
         if (subsetSize == 0) printf("Opening input file: '%s'\n", argv[0]);
-        else printf("Opening file: '%s', reading block %ld of size %ld\n", argv[0], subsetIndex, subsetSize);
+        else printf("Opening file: '%s', reading block %lu of size %lu\n", argv[0], subsetIndex, subsetSize);
     }
 
     IidTestRun testRun;

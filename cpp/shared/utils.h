@@ -5,27 +5,21 @@
 #include <iostream>		// std::cout
 #include <string>		// std::string
 #include <map>			// std::map
-#include <set>			// std::set
-#include <string.h>		// strlen
 #include <iomanip>		// setw / setfill
-#include <stdio.h>
-//#include <stdlib.h>
 #include <cstdlib>
 #include <vector>		// std::vector
-#include <time.h>		// time
+#include <ctime>		// time
 #include <algorithm>	// std::sort
 #include <cmath>		// pow, log2
 #include <array>		// std::array
 #include <omp.h>		// openmp 4.0 with gcc 4.9
 #include <bitset>
 #include <mutex>		// std::mutex
-#include <assert.h>
+#include <cassert>
 #include <cfloat>
-#include <math.h>
 #include <sstream>
 #include "test_run_base.h"
 
-#define SWAP(x, y) do { int s = x; x = y; y = s; } while(0)
 #define INOPENINTERVAL(x, a, b) (((a)>(b))?(((x)>(b))&&((x)<(a))):(((x)>(a))&&((x)<(b))))
 #define INCLOSEDINTERVAL(x, a, b) (((a)>(b))?(((x)>=(b))&&((x)<=(a))):(((x)>=(a))&&((x)<=(b))))
 
@@ -52,20 +46,16 @@ typedef unsigned __int128 uint_least128_t;
 # define UINT128_C(N)        ((uint_least128_t)+N ## WBU)
 #endif
 
-typedef struct data_t data_t;
-
 struct data_t{
-	int word_size; 		// bits per symbol
-	int alph_size; 		// symbol alphabet size
-	uint8_t maxsymbol; 	// the largest symbol present in the raw data stream
-	uint8_t *rawsymbols; 	// raw data words
-	uint8_t *symbols; 		// data words
-	uint8_t *bsymbols; 	// data words as binary string
-	long len; 		// number of words in data
-	long blen; 		// number of bits in data
+	int word_size;				// bits per symbol
+	int alph_size;				// symbol alphabet size
+	uint8_t maxsymbol;			// the largest symbol present in the raw data stream
+	uint8_t *rawsymbols = NULL; // raw data words
+	uint8_t *symbols = NULL;	// data words
+	uint8_t *bsymbols = NULL;	// data words as binary string
+	long len;					// number of words in data
+	long blen;					// number of bits in data
 };
-
-
 
 using namespace std;
 
@@ -85,7 +75,7 @@ bool relEpsilonEqual(double A, double B, double maxAbsFactor, double maxRelFacto
    uint64_t Aint;
    uint64_t Bint;
 
-   assert(sizeof(uint64_t) == sizeof(double));
+   static_assert(sizeof(uint64_t) == sizeof(double));
    assert(maxAbsFactor >= 0.0);
    assert(maxRelFactor >= 0.0);
 
@@ -111,17 +101,8 @@ bool relEpsilonEqual(double A, double B, double maxAbsFactor, double maxRelFacto
    absB = fabs(B);
    //Make sure that A is the closest to 0.
    if(absA > absB) {
-      double tmp;
-
-      //Swap A and B
-      tmp = B;
-      B=A;
-      A=tmp;
-
-      //Swap absA and absB
-      tmp = absB;
-      absB = absA;
-      absA = tmp;
+	  swap(A, B);
+	  swap(absA, absB);
    }
 
    //Capture the difference of the largest magnitude from the smallest magnitude
@@ -668,8 +649,8 @@ void FYshuffle(uint8_t data[], uint8_t rawdata[], const int sample_size, uint64_
 
 	for (long int i = sample_size - 1; i > 0; --i) {
 		r = (long int)randomRange64((uint64_t)i, xoshiro256starstarState);
-		SWAP(data[r], data[i]);
-		SWAP(rawdata[r], rawdata[i]);
+		swap(data[r], data[i]);
+		swap(rawdata[r], rawdata[i]);
 	}
 }
 
@@ -684,11 +665,11 @@ long int sum(const uint8_t arr[], const int sample_size) {
 }
 
 // Quick sum std::array // TODO
-template<size_t LENGTH>
-int sum(const array<int, LENGTH> &arr) {
-	int sum = 0;
-	for (int i = 0; i < LENGTH; ++i) {
-		sum += arr[i];
+template<typename T, size_t LENGTH>
+int sum(const array<T, LENGTH> &arr) {
+	T sum = 0;
+	for (T i: arr) {
+		sum += i;
 	}
 
 	return sum;
@@ -698,8 +679,8 @@ int sum(const array<int, LENGTH> &arr) {
 template<typename T>
 T sum(const vector<T> &v) {
 	T sum = 0;
-	for (unsigned long int i = 0; i < v.size(); ++i) {
-		sum += v[i];
+	for (long int i: v) {
+		sum += i;
 	}
 
 	return sum;
@@ -771,7 +752,7 @@ void calc_counts(const uint8_t data[], vector<int> &c, const int sample_size) {
 }
 
 // Determines the standard deviation of a dataset
-double std_dev(const vector<int> x, const double x_mean) {
+double std_dev(const vector<int>& x, const double x_mean) {
 	double sum = 0.0;
 
 	for (unsigned int i = 0; i < x.size(); i++) {
@@ -1018,7 +999,7 @@ uint32_t compressedBitSymbols(const uint8_t *S, long length)
    return retPattern;
 }
 
-static void printVersion(string name) {
+static void printVersion(const string& name) {
     cout << name << " " << VERSION << "\n\n";
     cout << "Disclaimer: ";
     cout << "NIST-developed software is provided by NIST as a public service. You may use, copy, and distribute copies of the software in any medium, provided that you keep intact this entire notice. You may improve, modify, and create derivative works of the software or any portion of the software, and you may copy and distribute such modifications or works. Modified works should carry a notice stating that you changed the software and should note the date and nature of any such change. Please explicitly acknowledge the National Institute of Standards and Technology as the source of the software.";

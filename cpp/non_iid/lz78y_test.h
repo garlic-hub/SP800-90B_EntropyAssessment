@@ -113,7 +113,7 @@ static double binaryLZ78YPredictionEstimate(const uint8_t *S, long L, const int 
 }
 
 // Section 6.3.10 - LZ78Y Prediction Estimate
-double LZ78Y_test(uint8_t *data, long len, int alph_size, const int verbose, const char *label) {
+double LZ78Y_test(const uint8_t *data, long len, int alph_size, const int verbose, const char *label) {
 	int dict_size;
 	long i, j, N, C, run_len, max_run_len;
 	array<uint8_t, B_len> x;
